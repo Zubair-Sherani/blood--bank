@@ -7,10 +7,15 @@ const {
     updateOrganization,
     deleteOrganization } = require("../controllers/Organizations-controller");
 
-router.get("/", getAllOrgranizations);
-router.post("/", addOrganization);
-router.get("/:id", getById);
-router.put("/:id", updateOrganization);
-router.delete("/:id", deleteOrganization);
+    const auth = require('../Middlewares/auth')
+
+    // router.use('/', checkUserAuth)
+    //Public Routes
+    
+    router.get("/", auth, getAllOrgranizations);
+    router.post("/", auth, addOrganization);
+    router.get("/:id", auth, getById);
+    router.put("/:id", auth, updateOrganization);
+    router.delete("/:id", auth, deleteOrganization);
 
 module.exports = router;

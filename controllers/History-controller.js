@@ -1,34 +1,44 @@
 const History = require('../models/History')
 
-const getAllHistory = async (req, res, next) => {
-    let history;
-    try {
-        history = await History.find();
-    } catch (err) {
-        console.log(err);
-    }
+const getAllHistory = async (req, res) => {
+    if (req.type === "admin") {
+        let history;
+        try {
+            history = await History.find();
+        } catch (err) {
+            console.log(err);
+        }
 
-    if (!history) {
-        return res.status(404).json({ message: "No History found" });
+        if (!history) {
+            return res.status(404).json({ message: "No History found" });
+        }
+        return res.status(200).json({ history });
     }
-    return res.status(200).json({ history });
+    else {
+        res.status(404).json({ message: "Access Denied" })
+    }
 };
 
 const getById = async (req, res, next) => {
-    const id = req.params.id;
-    let history;
-    try {
-        history = await History.findById(id);
-    } catch (err) {
-        console.log(err);
+    if (req.type === "admin") {
+        const id = req.params.id;
+        let history;
+        try {
+            history = await History.findById(id);
+        } catch (err) {
+            console.log(err);
+        }
+        if (!history) {
+            return res.status(404).json({ message: "No History found" });
+        }
+        return res.status(200).json({ history });
     }
-    if (!history) {
-        return res.status(404).json({ message: "No History found" });
+    else {
+        res.status(404).json({ message: "Access Denied" })
     }
-    return res.status(200).json({ history });
 };
 
-const addHistory = async (req, res, next) => {
+const addHistory = async (req, res) => {
     const { requester, patientName, cnic, bloodgroup, disease, address, donor } = req.body;
     let history;
     try {
@@ -46,8 +56,8 @@ const addHistory = async (req, res, next) => {
     return res.status(201).json({ history });
 };
 
-  module.exports = {
+module.exports = {
     getAllHistory,
     getById,
-    addHistory  
+    addHistory
 }

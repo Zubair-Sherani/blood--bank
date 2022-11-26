@@ -5,19 +5,19 @@ const {
     getById,
     addIndividual,
     updateIndividual,
-    deleteIndividual } = require("../controllers/Individuals-controller");
+    deleteIndividual,
+    getIndividualRequests,
+    deleteIndividualRequests} = require("../controllers/Individuals-controller");
 
-const checkUserAuth = require('../Middlewares/auth-individual')
+const auth = require('../Middlewares/auth')
 
-// router.use('/', checkUserAuth)
-//Public Routes
 
-router.get("/", checkUserAuth, getAllIndividuals);
-router.post("/", addIndividual);
-router.get("/:id", getById);
-router.put("/:id", updateIndividual);
-router.delete("/:id", deleteIndividual);
+//accessible by only admins
 
-//Protected Routes
+router.get("/", auth, getAllIndividuals);
+router.post("/", auth, addIndividual);
+router.get("/:id", auth, getById);
+router.put("/:id", auth, updateIndividual);
+router.delete("/:id", auth, deleteIndividual);
 
 module.exports = router;

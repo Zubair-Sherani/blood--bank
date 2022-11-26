@@ -5,12 +5,17 @@ const {
     getById,
     addRequest,
     updateRequest,
-    deleteRequest } = require("../controllers/Requests-controller");
+    deleteRequest,
+    getIndividualRequests,
+    deleteIndividualRequests} = require("../controllers/Requests-controller");
 
-router.get("/", getAllRequests);
-router.post("/", addRequest);
-router.get("/:id", getById);
-router.put("/:id", updateRequest);
-router.delete("/:id", deleteRequest);
+const auth = require('../Middlewares/auth')
+
+
+router.get("/", auth, getAllRequests);
+router.post("/", auth, addRequest);
+router.get("/:id", auth, getById);
+router.put("/:id", auth, updateRequest);
+router.delete("/:id", auth, deleteRequest);
 
 module.exports = router;

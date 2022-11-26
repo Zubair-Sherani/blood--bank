@@ -4,9 +4,10 @@ const {
     getAllHistory,
     getById,
     addHistory } = require("../controllers/History-controller");
+const auth = require('../Middlewares/auth')
 
-router.get("/", getAllHistory);
-router.post("/", addHistory);
-router.get("/:id", getById);
+router.get("/", auth, getAllHistory);
+router.post("/", auth, addHistory);
+router.get("/:id", auth, getById);
 
 module.exports = router;

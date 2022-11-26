@@ -7,10 +7,12 @@ const {
     updateAdmin,
     deleteAdmin } = require("../controllers/Admins-controller");
 
-router.get("/", getAllAdmins);
-router.post("/", addAdmin);
-router.get("/:id", getById);
-router.put("/:id", updateAdmin);
-router.delete("/:id", deleteAdmin);
+const auth = require('../Middlewares/auth')
+
+router.get("/", auth, getAllAdmins);
+router.post("/", auth, addAdmin);
+router.get("/:id", auth, getById);
+router.put("/:id", auth, updateAdmin);
+router.delete("/:id", auth, deleteAdmin);
 
 module.exports = router;
